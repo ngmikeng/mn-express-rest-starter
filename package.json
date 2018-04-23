@@ -4,7 +4,8 @@
   "description": "Express rest api starter project",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "startdev": "nodemon server.js"
   },
   "keywords": [
     "nodejs",
@@ -29,6 +30,7 @@
     "joi": "10.0.6",
     "jsonwebtoken": "^8.1.1",
     "method-override": "^2.3.10",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.3"
   }
 }

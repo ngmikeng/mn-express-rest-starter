@@ -9,6 +9,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const config = require('./config');
 const APIError = require('../src/helpers/errorHandlers/APIError');
+const responseHandler = require('../src/helpers/responseHandler/index');
 const routes = require('../src/routes/index.route');
 
 const app = express();
@@ -51,10 +52,7 @@ app.use((req, res, next) => {
 
 // error handler, send stacktrace only during development
 app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
-  res.status(err.status).json({
-    message: err.isPublic ? err.message : httpStatus[err.status],
-    stack: config.env === 'development' ? err.stack : {}
-  })
+  res.status(err.status).json(responseHandler.responseError(err))
 );
 
 module.exports = app;

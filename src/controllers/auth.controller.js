@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const httpStatus = require('http-status');
 const APIError = require('../helpers/errorHandlers/APIError');
+const responseHandler = require('../helpers/responseHandler/index');
 const config = require('../../config/config');
 
 // sample user, used for authentication
@@ -28,10 +29,10 @@ function login(req, res, next) {
     const token = jwt.sign({
       username: user.username
     }, config.jwtSecret, {expiresIn: '2h'});
-    return res.json({
+    return res.json(responseHandler.responseSuccess({
       token,
       username: user.username
-    });
+    }));
   }
 
   const err = new APIError('Authentication error', httpStatus.UNAUTHORIZED, true);
@@ -46,8 +47,8 @@ function login(req, res, next) {
  */
 function getRandomNumber(req, res) {
   // req.user is assigned by jwt middleware if valid token is provided
-  return res.json({
+  return res.json(responseHandler.responseSuccess({
     user: req.user,
     num: Math.random() * 100
-  });
+  }));
 }

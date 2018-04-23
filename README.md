@@ -29,8 +29,11 @@ $ yarn start
   - Response Payload:
     ```json
     {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlYWN0IiwiaWF0IjoxNTE4MjU3OTMwfQ.8FfXLMr-j3Is8SVBAs9Xt1SN5-8J110fI0zZ8pG7sXs",
+      "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlYWN0IiwiaWF0IjoxNTI0NDc4MzcwLCJleHAiOjE1MjQ0ODU1NzB9.Me7AuPzf7NDzmtw9aCdfW8VBpbgiddBYlXFGYMIlvQw",
         "username": "react"
+      },
+      "success": 1
     }
     ```
 - Get random number API:
@@ -41,20 +44,23 @@ $ yarn start
     ```
   - Response Payload:
     ```json
-      {
+    {
+      "data": {
         "user": {
-            "username": "react",
-            "iat": 1518260145,
-            "exp": 1518260205
+          "username": "react",
+          "iat": 1524478370,
+          "exp": 1524485570
         },
-        "num": 28.34904852480433
-      }
+        "num": 26.62498848615844
+      },
+      "success": 1
+    }
     ```
 
 ### TODO
 - ORM/ODM: mongoosejs, sequelizejs.
-- GraphQL.
-- Build Tools, ES7, nodemon.
+- Build Tools, ES7.
+- API docs: swagger...
 - ...
 
 
