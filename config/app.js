@@ -11,6 +11,7 @@ const config = require('./config');
 const APIError = require('../src/helpers/errorHandlers/APIError');
 const responseHandler = require('../src/helpers/responseHandler/index');
 const routes = require('../src/routes/index.route');
+const configMongo = require('./databases/mongodb');
 
 const app = express();
 
@@ -31,6 +32,17 @@ app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
+
+// handle mongo
+if (process.env.CONFIG_USE_MONGO) {
+  configMongo.createMainConnection()
+  .then(connection => {
+    console.log('Created connection to mongodb successful');
+  })
+  .catch(err => {
+    throw new Error('Something went wrong on connect mongodb');
+  });
+}
 
 // mount all routes on /api path
 app.use('/api/v1', routes);
