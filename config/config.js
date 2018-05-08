@@ -12,6 +12,8 @@ const envConfigSchema = Joi.object({
       .default(5000),
     JWT_SECRET: Joi.string().required()
       .description('JWT Secret required to sign'),
+    IS_USE_MONGO: Joi.string().default(true),
+    MONGODB_URI: Joi.string().default('mongodb://localhost:27017/')
   }).unknown()
   .required();
 
@@ -23,7 +25,9 @@ if (error) {
 const config = {
   env: envConfig.NODE_ENV,
   port: envConfig.PORT,
-  jwtSecret: envConfig.JWT_SECRET
+  jwtSecret: envConfig.JWT_SECRET,
+  isUseMongo: envConfig.IS_USE_MONGO,
+  mongodbUrl: envConfig.MONGODB_URI
 };
 
 module.exports = config;

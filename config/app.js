@@ -8,6 +8,7 @@ const httpStatus = require('http-status');
 const cors = require('cors');
 const helmet = require('helmet');
 const config = require('./config');
+const winstonLogger = require('./winston');
 const APIError = require('../src/helpers/errorHandlers/APIError');
 const responseHandler = require('../src/helpers/responseHandler/index');
 const routes = require('../src/routes/index.route');
@@ -34,14 +35,14 @@ app.use(helmet());
 app.use(cors());
 
 // handle mongo
-if (process.env.CONFIG_USE_MONGO) {
+if (config.isUseMongo) {
   configMongo.createMainConnection()
-  .then(connection => {
-    console.log('Created connection to mongodb successful');
-  })
-  .catch(err => {
-    throw new Error('Something went wrong on connect mongodb');
-  });
+    .then((connection) => {
+      console.log('Created connection to mongodb successful');
+    })
+    .catch((err) => {
+      winstonLogger.error('Can not connect to mongodb.', {error: err});
+    });
 }
 
 // mount all routes on /api path

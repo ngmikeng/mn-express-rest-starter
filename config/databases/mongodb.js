@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
+const util = require('util');
+const config = require('../config');
+
+if (config.env === 'development') {
+  mongoose.set('debug', true);
+}
 
 let mainConnection = {};
 let othersConnection = {};
@@ -10,21 +16,25 @@ module.exports = {
 
 function createMainConnection(options) {
   return new Promise((resolve, reject) => {
-    mainConnection = mongoose.createConnection(process.env.MONGODB_URI, options);
-    mainConnection.on('error', function(error) {
-      reject(error);
-    });
-    mainConnection.on('connected', function() {
-      resolve(mainConnection);
-    });
-    mainConnection.on('disconnected', function() {
-      console.log('MongoDB disconnected');
-    });
-    mainConnection.on('reconnected', function() {
-      console.log('MongoDB reconnected!');
-    });
-    mainConnection.on('reconnecting', function() {
-      console.log('Reconnecting...!');
-    });
+    try {
+      mainConnection = mongoose.createConnection(config.mongodbUrl, options);
+      mainConnection.on('error', function(error) {
+        reject(error);
+      });
+      mainConnection.on('connected', function() {
+        resolve(mainConnection);
+      });
+      mainConnection.on('disconnected', function() {
+        console.log('MongoDB disconnected');
+      });
+      mainConnection.on('reconnected', function() {
+        console.log('MongoDB reconnected!');
+      });
+      mainConnection.on('reconnecting', function() {
+        console.log('Reconnecting...!');
+      });
+    } catch (err) {
+      reject(util.inspect(err));
+    }
   })
 }
