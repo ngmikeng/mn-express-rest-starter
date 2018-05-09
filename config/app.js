@@ -36,7 +36,7 @@ app.use(cors());
 
 // handle mongo
 if (config.isUseMongo) {
-  configMongo.createMainConnection()
+  configMongo.createConnection()
     .then((connection) => {
       console.log('Created connection to mongodb successful');
     })

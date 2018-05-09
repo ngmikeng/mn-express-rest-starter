@@ -7,30 +7,31 @@ if (config.env === 'development') {
   mongoose.set('debug', true);
 }
 
-let mainConnection = {};
-let othersConnection = {};
+let newConnection = null;
 
 module.exports = {
-  createMainConnection: createMainConnection
+  createConnection: createConnection,
 };
 
-function createMainConnection(options) {
+function createConnection(options) {
   return new Promise((resolve, reject) => {
     try {
-      mainConnection = mongoose.createConnection(config.mongodbUrl, options);
-      mainConnection.on('error', function(error) {
+      // create default connection
+      mongoose.connect(config.mongodbUrl, options);
+      mongoose.connection.on('error', function(error) {
         reject(error);
       });
-      mainConnection.on('connected', function() {
-        resolve(mainConnection);
+      mongoose.connection.on('connected', function() {
+        newConnection = mongoose.connection.useDb('test-new-connection');
+        resolve(mongoose.connection);
       });
-      mainConnection.on('disconnected', function() {
+      mongoose.connection.on('disconnected', function() {
         console.log('MongoDB disconnected');
       });
-      mainConnection.on('reconnected', function() {
+      mongoose.connection.on('reconnected', function() {
         console.log('MongoDB reconnected!');
       });
-      mainConnection.on('reconnecting', function() {
+      mongoose.connection.on('reconnecting', function() {
         console.log('Reconnecting...!');
       });
     } catch (err) {
