@@ -1,7 +1,10 @@
 const User = require('../models/user.model.js');
+const httpStatus = require('http-status');
+const APIError = require('../helpers/errorHandlers/APIError');
+const mongoConfig = require('../../config/databases/mongodb');
 
 module.exports = {
-  load, get, list, create
+  load, get, list, create, createByDb
 };
 
 /**
@@ -52,4 +55,23 @@ function create(req, res, next) {
   user.save()
     .then(savedUser => res.json(savedUser))
     .catch(e => next(e));
+}
+
+function createByDb(req, res, next) {
+  const dbName = req.query.db;
+  if (!dbName) {
+    const err = new APIError('Invalid query param: db.', httpStatus.BAD_REQUEST, true);
+    return next(err);
+  } else {
+    const connection = mongoConfig.useDb(dbName);
+    const UserByDb = connection.model('User', User.schema);
+    const user = new UserByDb({
+      username: req.body.username,
+      fullName: req.body.fullName
+    });
+
+    user.save()
+      .then(savedUser => res.json(savedUser))
+      .catch(e => next(e));
+  }
 }

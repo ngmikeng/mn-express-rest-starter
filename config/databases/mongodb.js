@@ -7,10 +7,11 @@ if (config.env === 'development') {
   mongoose.set('debug', true);
 }
 
-let newConnection = null;
+let connectionsByDb = {};
 
 module.exports = {
   createConnection: createConnection,
+  useDb: useDb
 };
 
 function createConnection(options) {
@@ -22,7 +23,6 @@ function createConnection(options) {
         reject(error);
       });
       mongoose.connection.on('connected', function() {
-        newConnection = mongoose.connection.useDb('test-new-connection');
         resolve(mongoose.connection);
       });
       mongoose.connection.on('disconnected', function() {
@@ -38,4 +38,12 @@ function createConnection(options) {
       reject(util.inspect(err));
     }
   })
+}
+
+function useDb(dbName) {
+  if (!connectionsByDb[dbName]) {
+    connectionsByDb[dbName] = mongoose.connection.useDb(dbName);
+  }
+
+  return connectionsByDb[dbName];
 }

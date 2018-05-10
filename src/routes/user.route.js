@@ -9,6 +9,10 @@ router.route('/')
   /** POST /api/users - Create new user */
   .post(userCtrl.create);
 
+router.route('/db')
+  /** POST /api/users/db - Create new user and save in a database has name equal req.query.db */
+  .post(userCtrl.createByDb);
+
 router.route('/:userId')
   /** GET /api/v1/users/:userId - Get user */
   .get(userCtrl.get)
