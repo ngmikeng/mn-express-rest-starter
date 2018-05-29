@@ -7,8 +7,8 @@ const methodOverride = require('method-override');
 const httpStatus = require('http-status');
 const cors = require('cors');
 const helmet = require('helmet');
-const config = require('./config');
 const winstonLogger = require('./winston');
+const config = require('./config');
 const APIError = require('../src/helpers/errorHandlers/APIError');
 const responseHandler = require('../src/helpers/responseHandler/index');
 const routes = require('../src/routes/index.route');
@@ -44,6 +44,12 @@ if (config.isUseMongo) {
       winstonLogger.error('Can not connect to mongodb.', {error: err});
     });
 }
+
+// swagger api docs
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./config/swagger/index.yaml');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // mount all routes on /api path
 app.use('/api/v1', routes);
