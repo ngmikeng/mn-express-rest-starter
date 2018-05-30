@@ -47,9 +47,30 @@ if (config.isUseMongo) {
 
 // swagger api docs
 const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./config/swagger/index.yaml');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// const YAML = require('yamljs');
+// const swaggerDocument = YAML.load('./config/swagger/index.yaml');
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const options = {
+  swaggerDefinition: {
+    info: {
+      title: 'Hello World',
+      version: '0.0.1',
+    },
+    basePath: '/api/v1/'
+  },
+  apis: ['./src/routes/*.route.js'], // Path to the API docs
+};
+
+// Initialize swagger-jsdoc -> returns validated swagger spec in json format
+const swaggerSpec = swaggerJSDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Serve swagger docs the way you like (Recommendation: swagger-tools)
+app.get('/api-docs.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 // mount all routes on /api path
 app.use('/api/v1', routes);
