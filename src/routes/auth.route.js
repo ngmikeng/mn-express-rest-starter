@@ -36,6 +36,28 @@ router.route('/login')
 
 /** GET /api/v1/auth/random-number
 - Protected route, needs token returned by the above as header. Authorization: Bearer {token} */
+/**
+ * @swagger
+ * /auth/randomNumber:
+ *  get:
+ *    summary: Test protected route, get a random number
+ *    security:
+ *      - ApiKeyAuth: []
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: header
+ *        name: Authorization
+ *        description: Auth Token.
+ *        schema:
+ *          type: string
+ *          required: true
+ *    responses:
+ *      200:
+ *        description: 'OK'
+ *      401:
+ *        description: 'Unauthorized'
+ */ 
 router.route('/randomNumber')
   .get(expressJwt({ secret: config.jwtSecret }), authCtrl.getRandomNumber);
 

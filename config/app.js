@@ -22,7 +22,9 @@ if (config.env === 'development') {
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(cookieParser());
 app.use(compress());
@@ -41,7 +43,9 @@ if (config.isUseMongo) {
       console.log('Created connection to mongodb successful');
     })
     .catch((err) => {
-      winstonLogger.error('Can not connect to mongodb.', {error: err});
+      winstonLogger.error('Can not connect to mongodb.', {
+        error: err
+      });
     });
 }
 
@@ -58,16 +62,44 @@ const options = {
       title: 'Hello World',
       version: '0.0.1',
     },
-    basePath: '/api/v1/'
+    basePath: '/api/v1/',
+    securityDefinitions: {
+      BasicAuth: {
+        type: 'basic'
+      },
+      ApiKeyAuth: {
+        type: 'apiKey',
+        in: 'header',
+        name: 'Authorization'
+      }
+    }
   },
   apis: ['./src/routes/*.route.js'], // Path to the API docs
 };
 
+const swaggerUiOption = {
+  explorer: true,
+  swaggerOptions: {
+    authAction: {
+      JWT: {
+        name: 'JWT',
+        schema: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'Authorization',
+          description: ''
+        },
+        value: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlYWN0IiwiaWF0IjoxNTI3NzM5MTM3LCJleHAiOjE1Mjc3NDYzMzd9.YSoIYNu223ZnvJORb_Hna5_F9vSxMBacUpzDK5GZfXM"
+      }
+    }
+  }
+};
+
 // Initialize swagger-jsdoc -> returns validated swagger spec in json format
 const swaggerSpec = swaggerJSDoc(options);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, swaggerUiOption));
 // Serve swagger docs the way you like (Recommendation: swagger-tools)
-app.get('/api-docs.json', function(req, res) {
+app.get('/api-docs.json', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
