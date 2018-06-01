@@ -28,7 +28,6 @@
     "helmet": "^3.10.0",
     "http-status": "^1.0.1",
     "joi": "10.0.6",
-    "json-refs": "^3.0.4",
     "jsonwebtoken": "^8.1.1",
     "method-override": "^2.3.10",
     "mongoose": "^5.0.17",
@@ -36,7 +35,6 @@
     "nodemon": "^1.17.3",
     "swagger-jsdoc": "^1.9.7",
     "swagger-ui-express": "^3.0.9",
-    "winston": "^3.0.0-rc5",
-    "yamljs": "^0.3.0"
+    "winston": "^3.0.0-rc5"
   }
 }

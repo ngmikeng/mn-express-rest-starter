@@ -10,6 +10,7 @@ const config = require('../../config/config');
  * @swagger
  * /auth/login:
  *  post:
+ *    tags: ["auth"]
  *    summary: Login
  *    consumes:
  *      - application/json
@@ -40,18 +41,12 @@ router.route('/login')
  * @swagger
  * /auth/randomNumber:
  *  get:
+ *    tags: ["auth"]
  *    summary: Test protected route, get a random number
  *    security:
  *      - ApiKeyAuth: []
  *    consumes:
  *      - application/json
- *    parameters:
- *      - in: header
- *        name: Authorization
- *        description: Auth Token.
- *        schema:
- *          type: string
- *          required: true
  *    responses:
  *      200:
  *        description: 'OK'

@@ -1,6 +1,7 @@
 const User = require('../models/user.model.js');
 const httpStatus = require('http-status');
 const APIError = require('../helpers/errorHandlers/APIError');
+const responseHandler = require('../helpers/responseHandler/index');
 const mongoConfig = require('../../config/databases/mongodb');
 
 module.exports = {
@@ -36,7 +37,7 @@ function get(req, res) {
 function list(req, res, next) {
   const { limit = 50, skip = 0 } = req.query;
   User.getList({ limit, skip })
-    .then(users => res.json(users))
+    .then(users => res.json(responseHandler.responseSuccess(users)))
     .catch(e => next(e));
 }
 
@@ -53,7 +54,7 @@ function create(req, res, next) {
   });
 
   user.save()
-    .then(savedUser => res.json(savedUser))
+    .then(savedUser => res.json(responseHandler.responseSuccess(savedUser)))
     .catch(e => next(e));
 }
 
@@ -71,7 +72,7 @@ function createByDb(req, res, next) {
     });
 
     user.save()
-      .then(savedUser => res.json(savedUser))
+      .then(savedUser => res.json(responseHandler.responseSuccess(savedUser)))
       .catch(e => next(e));
   }
 }
