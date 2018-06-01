@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const expressJwt = require('express-jwt');
+const { checkSchema, validationResult } = require('express-validator/check');
+const validate = require('express-validation');
 const config = require('../../config/config');
 const userCtrl = require('../controllers/user.controller');
+const userValidation = require('../validation/schema/user');
 
 /**
  * @swagger
@@ -52,7 +55,7 @@ router.route('/')
   /** GET /api/v1/users - Get list of users */
   .get(userCtrl.list)
   /** POST /api/users - Create new user */
-  .post(userCtrl.create);
+  .post(validate(userValidation.createUser), userCtrl.create);
 
 /**
  * @swagger
