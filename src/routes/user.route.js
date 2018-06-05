@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const expressJwt = require('express-jwt');
-const { checkSchema, validationResult } = require('express-validator/check');
 const validate = require('express-validation');
 const config = require('../../config/config');
 const userCtrl = require('../controllers/user.controller');
-const userValidation = require('../validation/schema/user');
+const userValidation = require('../validation/user');
 
 /**
  * @swagger
@@ -93,7 +92,7 @@ router.route('/')
  */
 router.route('/db')
   /** POST /api/users/db - Create new user and save in a database has name equal req.query.db */
-  .post(userCtrl.createByDb);
+  .post(validate(userValidation.createUserByDb), userCtrl.createByDb);
 
 /**
  * @swagger
@@ -118,7 +117,7 @@ router.route('/db')
  */ 
 router.route('/:userId')
   /** GET /api/v1/users/:userId - Get user */
-  .get(userCtrl.get)
+  .get(validate(userValidation.getById), userCtrl.get)
 
 /** Load user when API with userId route parameter is hit */
 router.param('userId', userCtrl.load);

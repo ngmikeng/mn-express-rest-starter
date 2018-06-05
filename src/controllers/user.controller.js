@@ -1,5 +1,4 @@
 const httpStatus = require('http-status');
-const { validationResult } = require('express-validator/check');
 const User = require('../models/user.model.js');
 const APIError = require('../helpers/errorHandlers/APIError');
 const responseHandler = require('../helpers/responseHandler/index');
@@ -56,10 +55,6 @@ function create(req, res, next) {
 
   user.save()
     .then(savedUser => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() });
-      }
       return res.json(responseHandler.responseSuccess(savedUser));
     })
     .catch(e => next(e));
