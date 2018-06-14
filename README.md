@@ -6,7 +6,6 @@
 ### Get started
 
 #### Commands
-
 - Node version >= v6.9.
 - Install packages by yarn or npm.
 ```shell
@@ -18,7 +17,7 @@ $ yarn start
 ```
 
 #### Example some API
-
+- Swagger API: http://localhost:5000/api/v1/api-docs/
 - Check API is working http://localhost:5000/api/v1/health-check it should response `OK`.
 - Check API login:
   - POST: http://localhost:5000/api/v1/auth/login
@@ -58,11 +57,8 @@ $ yarn start
     ```
 
 ### TODO
-- ORM/ODM: mongoosejs, sequelizejs.
+- Unit Test: mocha, chai.
 - Build Tools, ES7.
-- API docs: swagger...
-- ...
-
 
 ### License
 MIT
