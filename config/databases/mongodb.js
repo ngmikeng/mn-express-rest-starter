@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const util = require('util');
 const config = require('../config');
+const winstonLogger = require('../winston');
 
 if (config.env === 'development') {
   mongoose.set('debug', true);
@@ -26,13 +27,13 @@ function createConnection(options) {
         resolve(mongoose.connection);
       });
       mongoose.connection.on('disconnected', function() {
-        console.log('MongoDB disconnected');
+        winstonLogger.info('MongoDB disconnected');
       });
       mongoose.connection.on('reconnected', function() {
-        console.log('MongoDB reconnected!');
+        winstonLogger.info('MongoDB reconnected!');
       });
       mongoose.connection.on('reconnecting', function() {
-        console.log('Reconnecting...!');
+        winstonLogger.info('Reconnecting...!');
       });
     } catch (err) {
       reject(util.inspect(err));

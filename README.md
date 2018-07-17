@@ -15,6 +15,10 @@ $ yarn install
 ```shell
 $ yarn start 
 ```
+- Run for dev with `nodemon` and `eslint`
+```shell
+$ yarn dev 
+```
 
 #### Example some API
 - Swagger API: http://localhost:5000/api/v1/api-docs/

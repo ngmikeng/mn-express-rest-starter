@@ -39,8 +39,8 @@ app.use(cors());
 // handle mongo
 if (config.isUseMongo) {
   configMongo.createConnection()
-    .then((connection) => {
-      console.log('Created connection to mongodb successful');
+    .then(() => {
+      winstonLogger.info('Created connection to mongodb successful');
     })
     .catch((err) => {
       winstonLogger.error('Can not connect to mongodb.', {

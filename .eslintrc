@@ -7,13 +7,6 @@
         "SwitchCase": 1
       }
     ],
-    "space-before-function-paren": [
-      2,
-      {
-        "anonymous": "always",
-        "named": "never"
-      }
-    ],
     "no-use-before-define": [
       2,
       "nofunc"
@@ -29,6 +22,6 @@
   },
   "extends": [
     "eslint:recommended",
-    //"airbnb-base"
+    // "airbnb-base"
   ]
 }

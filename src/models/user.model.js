@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const httpStatus = require('http-status');
 const APIError = require('../helpers/errorHandlers/APIError');
-const mongodbConfig = require('../../config/databases/mongodb');
 const connection = mongoose.connection;
 if (!connection) {
   throw new Error('No such a connection to mongodb');
