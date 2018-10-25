@@ -4,10 +4,14 @@ const { combine, timestamp, label, prettyPrint, simple, colorize } = format;
 const logger = createLogger({
   level: 'info',
   format: combine(
-    colorize(),
+    // colorize(),
     label({ label: 'App' }),
-    timestamp(),
-    prettyPrint()
+    timestamp({
+      format: 'YYYY-MM-DD HH:mm:ss'
+    }),
+    simple(),
+    // prettyPrint()
+    format.printf(info => `${info.timestamp} ${info.level}: ${info.message} ${JSON.stringify({ ...info })}`)
   ),
   transports: [
     //
@@ -15,18 +19,15 @@ const logger = createLogger({
     // - Write all logs error (and below) to `error.log`.
     //
     new transports.File({ filename: 'logs/error.log', level: 'error' }),
-    new transports.File({ filename: 'logs/combined.log' })
+    new transports.File({ filename: 'logs/combined.log' }),
   ]
 });
 
 //
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+// If we're not in production then log to the `console`.
 //
 if (process.env.NODE_ENV !== 'production') {
-  logger.add(new transports.Console({
-    format: simple(),
-  }));
+  logger.add(new transports.Console());
 }
 
 module.exports = logger;
