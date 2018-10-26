@@ -7,7 +7,8 @@
     "start": "node server.js",
     "watch": "nodemon server.js",
     "dev": "nodemon --exec \"npm run lint && npm run start\"",
-    "lint": "./node_modules/.bin/eslint . --ext .js"
+    "lint": "./node_modules/.bin/eslint . --ext .js",
+    "test": "cross-env NODE_ENV=test mocha src/test/**/*.test.js"
   },
   "keywords": [
     "nodejs",
@@ -40,8 +41,12 @@
     "winston": "^3.0.0-rc5"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-plugin-import": "^2.13.0"
+    "eslint-plugin-import": "^2.13.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0"
   }
 }

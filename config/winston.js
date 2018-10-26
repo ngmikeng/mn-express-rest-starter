@@ -11,7 +11,7 @@ const logger = createLogger({
     }),
     simple(),
     // prettyPrint()
-    format.printf(info => `${info.timestamp} ${info.level}: ${info.message} ${JSON.stringify({ ...info })}`)
+    format.printf(info => `${info.timestamp} ${info.level}: ${info.message} ${info.level === 'error' ? JSON.stringify(info.error) : ''}`)
   ),
   transports: [
     //
@@ -26,7 +26,7 @@ const logger = createLogger({
 //
 // If we're not in production then log to the `console`.
 //
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   logger.add(new transports.Console());
 }
 
